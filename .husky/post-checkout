@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const fsPromises = require('fs').promises
+const path = require('path')
+
+fsPromises.readFile(path.join(__dirname, '..', '/.git/HEAD'), 'utf8').then((message) => {
+  const branch = message.replace(/.+heads\/(.+)/, '$1')
+
+  const jiraRegexp = /^CP-[0-9]+/
+  const mainBranchesRegexp = /^(main|origin\/main|develop|origin\/develop)\s?$/
+  const mergeRequestsRegexp = /merge|Merge/
+
+  if (!(jiraRegexp.test(branch) || mainBranchesRegexp.test(branch) || mergeRequestsRegexp.test(branch))) {
+    console.error(`Неверный формат наименования ветки (${branch}). Допустимый формат: CP-{{номер}}`)
+    process.exit(1)
+  }
+})
