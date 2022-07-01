@@ -102,15 +102,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+type Props = {
+  msg: string;
+};
 
-export default defineComponent({
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
-});
+defineProps<Props>();
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
